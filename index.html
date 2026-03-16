@@ -304,6 +304,9 @@ html, body {
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
   overflow: hidden;
   z-index: 20;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
 }
 
 .undo-redo.hidden { display: none; }
@@ -319,6 +322,8 @@ html, body {
   align-items: center;
   justify-content: center;
   transition: background 0.15s, opacity 0.15s;
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 .undo-redo button:hover { background: var(--hover); }
