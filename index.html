@@ -1201,7 +1201,7 @@ html, body {
     // Accessory: one random per group
     for (let gi = 0; gi < ACC_GROUPS.length; gi++) {
       const group = ACC_GROUPS[gi];
-      const noneChance = group.label === 'Skin' ? 0.5 : 0.25;
+      const noneChance = group.label === 'Skin' ? 0.6 : 0.5;
       if (Math.random() < noneChance) {
         state.accessory[gi] = -1;
       } else {
