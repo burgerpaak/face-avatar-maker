@@ -1216,15 +1216,22 @@ html, body {
       state.hair = -1;
     }
 
-    // Accessory: one random per group
-    for (let gi = 0; gi < ACC_GROUPS.length; gi++) {
+    // Accessory: pick count first, then choose which groups
+    const accCountWeights = [0.075, 0.38, 0.30, 0.225, 0.02]; // 0~4개
+    const roll = Math.random();
+    let accCount = 0, cumul = 0;
+    for (let i = 0; i < accCountWeights.length; i++) {
+      cumul += accCountWeights[i];
+      if (roll < cumul) { accCount = i; break; }
+    }
+    // Reset all to none
+    for (let gi = 0; gi < ACC_GROUPS.length; gi++) state.accessory[gi] = -1;
+    // Shuffle group indices and pick accCount groups
+    const gis = ACC_GROUPS.map((_, i) => i).sort(() => Math.random() - 0.5);
+    for (let i = 0; i < Math.min(accCount, gis.length); i++) {
+      const gi = gis[i];
       const group = ACC_GROUPS[gi];
-      const noneChance = group.label === 'Skin' ? 0.6 : 0.5;
-      if (Math.random() < noneChance) {
-        state.accessory[gi] = -1;
-      } else {
-        state.accessory[gi] = group.indices[Math.floor(Math.random() * group.indices.length)];
-      }
+      state.accessory[gi] = group.indices[Math.floor(Math.random() * group.indices.length)];
     }
 
     // Pick distinct colors for skin, hair, accessory
