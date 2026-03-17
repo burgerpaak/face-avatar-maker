@@ -464,12 +464,12 @@ html, body {
   flex-wrap: wrap;
 }
 .acc-tab {
-  padding: 4px 10px;
+  padding: 5px 12px;
   border: 1px solid var(--border);
   border-radius: 20px;
   background: transparent;
   font-family: inherit;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   color: var(--text2);
   cursor: pointer;
@@ -996,21 +996,21 @@ html, body {
     const stateKey = getStateKey(cat.id);
     const currentVal = state[stateKey];
 
-    // Color palette above options if applicable
-    if (cat.hasColorPalette) {
-      html += renderColorPaletteHtml(cat.id);
-    }
-
     const noneIconSvg = `<svg viewBox="-20 -20 120 120" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect x="5" y="5" width="10" height="10" fill="#b3b3b3"/><rect x="15" y="15" width="10" height="10" fill="#b3b3b3"/><rect x="25" y="25" width="10" height="10" fill="#b3b3b3"/><rect x="35" y="35" width="10" height="10" fill="#b3b3b3"/><rect x="45" y="45" width="10" height="10" fill="#b3b3b3"/><rect x="55" y="55" width="10" height="10" fill="#b3b3b3"/><rect x="65" y="65" width="10" height="10" fill="#b3b3b3"/><rect x="65" y="5" width="10" height="10" fill="#b3b3b3"/><rect x="55" y="15" width="10" height="10" fill="#b3b3b3"/><rect x="45" y="25" width="10" height="10" fill="#b3b3b3"/><rect x="25" y="45" width="10" height="10" fill="#b3b3b3"/><rect x="15" y="55" width="10" height="10" fill="#b3b3b3"/><rect x="5" y="65" width="10" height="10" fill="#b3b3b3"/></svg>`;
 
     // Accessory: tab-based sub-category rendering
     if (cat.id === 'accessory') {
-      // Sub-category tabs
+      // Sub-category tabs first, then color palette
       html += '<div class="acc-tabs">';
       ACC_GROUPS.forEach((group, gi) => {
         html += `<button class="acc-tab${gi === accGroupIdx ? ' active' : ''}" data-group="${gi}">${group.label}</button>`;
       });
       html += '</div>';
+
+      // Color palette below tabs
+      if (cat.hasColorPalette) {
+        html += renderColorPaletteHtml(cat.id);
+      }
 
       // "없음" button + selected group options
       const colors = getColorPalette(cat.id);
@@ -1028,6 +1028,10 @@ html, body {
       }
       html += '</div>';
     } else {
+      // Color palette above options for non-accessory categories
+      if (cat.hasColorPalette) {
+        html += renderColorPaletteHtml(cat.id);
+      }
       // Default rendering for other categories
       html += '<div class="options-grid">';
 
