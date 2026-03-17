@@ -880,9 +880,27 @@ html, body {
       }
     }
 
-    // Layer 6: Accessories (one per group, skip early-rendered groups)
+    // Layer 5.5: Earring (above hair, below hat/glasses)
+    const earringGi = ACC_GROUPS.findIndex(g => g.label === 'Earring');
+    if (earringGi >= 0) {
+      const earringIdx = state.accessory[earringGi];
+      if (earringIdx >= 0 && PARTS.accessory[earringIdx]) {
+        const ePalette = getColorPalette('accessory', earringGi);
+        const eColor = ePalette[state['accColor' + earringGi]];
+        for (const p of PARTS.accessory[earringIdx]) {
+          const origColor = p[2] || '#000';
+          let fill;
+          if (origColor === 'blue') { fill = eColor; }
+          else if (origColor === '#fff') { fill = '#fff'; }
+          else { fill = origColor; }
+          svgContent += rect(p[0], p[1], fill);
+        }
+      }
+    }
+
+    // Layer 6: Accessories (hat, glasses — skip skin, earring, early-rendered)
     for (let gi = 0; gi < ACC_GROUPS.length; gi++) {
-      if (gi === skinAccGi || earlyAccGis.includes(gi)) continue;
+      if (gi === skinAccGi || gi === earringGi || earlyAccGis.includes(gi)) continue;
       const accIdx = state.accessory[gi];
       if (accIdx >= 0 && PARTS.accessory[accIdx]) {
         const accPalette = getColorPalette('accessory', gi);
