@@ -6,7 +6,7 @@
 <title>Pixie Lab</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='5 5 70 70' shape-rendering='crispEdges'><rect x='35' y='50' width='10' height='10'/><rect x='35' y='40' width='10' height='10'/><rect x='35' y='30' width='10' height='10'/><rect x='25' y='40' width='10' height='10'/><rect x='55' y='40' width='10' height='10'/><rect x='45' y='50' width='10' height='10'/><rect x='45' y='20' width='10' height='10'/><rect x='55' y='20' width='10' height='10'/><rect x='25' y='20' width='10' height='10'/><rect x='15' y='10' width='10' height='10'/><rect x='45' y='10' width='10' height='10'/><rect x='15' y='20' width='10' height='10'/><rect x='35' y='20' width='10' height='10'/><rect x='15' y='30' width='10' height='10'/><rect x='25' y='30' width='5' height='10'/><rect x='15' y='50' width='10' height='10'/><rect x='5' y='40' width='10' height='10'/><rect x='25' y='50' width='10' height='10'/><rect x='25' y='60' width='10' height='10'/><rect x='15' y='40' width='10' height='10'/><rect x='55' y='30' width='10' height='10'/><rect x='45' y='30' width='5' height='10'/><rect x='45' y='40' width='10' height='10'/><rect x='55' y='50' width='10' height='10'/><rect x='45' y='60' width='10' height='10'/><rect x='65' y='40' width='10' height='10'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&family=Outfit:wght@400;500&family=Pixelify+Sans:wght@400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -38,6 +38,8 @@ html, body {
   height: 100vh;
 }
 
+.mobile-logo { display: none; }
+
 /* ── Sidebar ── */
 .sidebar {
   width: clamp(170px, 13vw, 210px);
@@ -54,6 +56,7 @@ html, body {
   font-size: 16px;
   font-weight: 500;
   color: var(--text);
+  cursor: pointer;
 }
 
 .sidebar-menu {
@@ -350,6 +353,29 @@ html, body {
 
 .btn-create:hover { background: #f0f0f0; }
 
+/* ── Watermark ── */
+.watermark {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Pixelify Sans', monospace;
+  font-size: 12px;
+  color: rgba(232,232,232,0.25);
+  white-space: nowrap;
+  z-index: 1;
+}
+.watermark-link {
+  color: rgba(232,232,232,0.5);
+  text-decoration: none;
+  font-weight: 300;
+}
+.watermark-link:hover {
+  color: rgba(232,232,232,0.7);
+  text-decoration: underline;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 240 240' shape-rendering='crispEdges'%3E%3Crect x='40' y='90' width='10' height='10'/%3E%3Crect x='50' y='80' width='10' height='10'/%3E%3Crect x='60' y='80' width='10' height='10'/%3E%3Crect x='70' y='90' width='10' height='10'/%3E%3Crect x='80' y='90' width='10' height='10'/%3E%3Crect x='80' y='80' width='10' height='10'/%3E%3Crect x='80' y='70' width='10' height='10'/%3E%3Crect x='80' y='60' width='10' height='10'/%3E%3Crect x='80' y='50' width='10' height='10'/%3E%3Crect x='80' y='40' width='10' height='10'/%3E%3Crect x='90' y='40' width='10' height='10' fill='%23fff'/%3E%3Crect x='90' y='50' width='10' height='10' fill='%23fff'/%3E%3Crect x='90' y='60' width='10' height='10' fill='%23fff'/%3E%3Crect x='90' y='70' width='10' height='10' fill='%23fff'/%3E%3Crect x='90' y='80' width='10' height='10' fill='%23fff'/%3E%3Crect x='90' y='90' width='10' height='10' fill='%23fff'/%3E%3Crect x='90' y='100' width='10' height='10' fill='%23fff'/%3E%3Crect x='90' y='110' width='10' height='10' fill='%23fff'/%3E%3Crect x='90' y='120' width='10' height='10' fill='%23fff'/%3E%3Crect x='90' y='130' width='10' height='10' fill='%23fff'/%3E%3Crect x='90' y='140' width='10' height='10' fill='%23fff'/%3E%3Crect x='90' y='150' width='10' height='10' fill='%23fff'/%3E%3Crect x='80' y='150' width='10' height='10' fill='%23fff'/%3E%3Crect x='80' y='140' width='10' height='10' fill='%23fff'/%3E%3Crect x='80' y='130' width='10' height='10' fill='%23fff'/%3E%3Crect x='80' y='120' width='10' height='10' fill='%23fff'/%3E%3Crect x='80' y='110' width='10' height='10' fill='%23fff'/%3E%3Crect x='70' y='110' width='10' height='10' fill='%23fff'/%3E%3Crect x='70' y='120' width='10' height='10' fill='%23fff'/%3E%3Crect x='70' y='130' width='10' height='10' fill='%23fff'/%3E%3Crect x='70' y='100' width='10' height='10' fill='%23fff'/%3E%3Crect x='60' y='100' width='10' height='10' fill='%23fff'/%3E%3Crect x='60' y='110' width='10' height='10' fill='%23fff'/%3E%3Crect x='60' y='90' width='10' height='10' fill='%23fff'/%3E%3Crect x='50' y='90' width='10' height='10' fill='%23fff'/%3E%3Crect x='50' y='100' width='10' height='10' fill='%23fff'/%3E%3Crect x='90' y='160' width='10' height='10' fill='%23fff'/%3E%3Crect x='100' y='160' width='10' height='10' fill='%23fff'/%3E%3Crect x='100' y='150' width='10' height='10' fill='%23fff'/%3E%3Crect x='100' y='140' width='10' height='10' fill='%23fff'/%3E%3Crect x='100' y='130' width='10' height='10' fill='%23fff'/%3E%3Crect x='100' y='120' width='10' height='10' fill='%23fff'/%3E%3Crect x='100' y='110' width='10' height='10' fill='%23fff'/%3E%3Crect x='100' y='100' width='10' height='10' fill='%23fff'/%3E%3Crect x='110' y='100' width='10' height='10' fill='%23fff'/%3E%3Crect x='120' y='100' width='10' height='10' fill='%23fff'/%3E%3Crect x='120' y='90' width='10' height='10' fill='%23fff'/%3E%3Crect x='120' y='80' width='10' height='10' fill='%23fff'/%3E%3Crect x='130' y='80' width='10' height='10' fill='%23fff'/%3E%3Crect x='130' y='90' width='10' height='10' fill='%23fff'/%3E%3Crect x='130' y='100' width='10' height='10' fill='%23fff'/%3E%3Crect x='140' y='100' width='10' height='10' fill='%23fff'/%3E%3Crect x='150' y='100' width='10' height='10' fill='%23fff'/%3E%3Crect x='160' y='100' width='10' height='10' fill='%23fff'/%3E%3Crect x='170' y='100' width='10' height='10' fill='%23fff'/%3E%3Crect x='170' y='110' width='10' height='10' fill='%23fff'/%3E%3Crect x='170' y='120' width='10' height='10' fill='%23fff'/%3E%3Crect x='170' y='130' width='10' height='10' fill='%23fff'/%3E%3Crect x='170' y='140' width='10' height='10' fill='%23fff'/%3E%3Crect x='160' y='140' width='10' height='10' fill='%23fff'/%3E%3Crect x='160' y='130' width='10' height='10' fill='%23fff'/%3E%3Crect x='160' y='120' width='10' height='10' fill='%23fff'/%3E%3Crect x='150' y='120' width='10' height='10' fill='%23fff'/%3E%3Crect x='160' y='110' width='10' height='10' fill='%23fff'/%3E%3Crect x='150' y='110' width='10' height='10' fill='%23fff'/%3E%3Crect x='140' y='110' width='10' height='10' fill='%23fff'/%3E%3Crect x='130' y='110' width='10' height='10' fill='%23fff'/%3E%3Crect x='130' y='120' width='10' height='10' fill='%23fff'/%3E%3Crect x='120' y='110' width='10' height='10' fill='%23fff'/%3E%3Crect x='110' y='110' width='10' height='10' fill='%23fff'/%3E%3Crect x='110' y='120' width='10' height='10' fill='%23fff'/%3E%3Crect x='160' y='150' width='10' height='10' fill='%23fff'/%3E%3Crect x='160' y='160' width='10' height='10' fill='%23fff'/%3E%3Crect x='150' y='160' width='10' height='10' fill='%23fff'/%3E%3Crect x='140' y='160' width='10' height='10' fill='%23fff'/%3E%3Crect x='130' y='160' width='10' height='10' fill='%23fff'/%3E%3Crect x='120' y='160' width='10' height='10' fill='%23fff'/%3E%3Crect x='110' y='160' width='10' height='10' fill='%23fff'/%3E%3Crect x='110' y='150' width='10' height='10' fill='%23fff'/%3E%3Crect x='120' y='150' width='10' height='10' fill='%23fff'/%3E%3Crect x='120' y='140' width='10' height='10' fill='%23fff'/%3E%3Crect x='120' y='130' width='10' height='10' fill='%23fff'/%3E%3Crect x='130' y='150' width='10' height='10' fill='%23fff'/%3E%3Crect x='140' y='150' width='10' height='10' fill='%23fff'/%3E%3Crect x='140' y='140' width='10' height='10' fill='%23fff'/%3E%3Crect x='140' y='130' width='10' height='10' fill='%23fff'/%3E%3Crect x='150' y='150' width='10' height='10' fill='%23fff'/%3E%3Crect x='150' y='170' width='10' height='10' fill='%23fff'/%3E%3Crect x='140' y='170' width='10' height='10' fill='%23fff'/%3E%3Crect x='130' y='170' width='10' height='10' fill='%23fff'/%3E%3Crect x='120' y='170' width='10' height='10' fill='%23fff'/%3E%3Crect x='110' y='170' width='10' height='10' fill='%23fff'/%3E%3Crect x='100' y='170' width='10' height='10' fill='%23fff'/%3E%3Crect x='170' y='90' width='10' height='10' fill='%23fff'/%3E%3Crect x='150' y='90' width='10' height='10' fill='%23fff'/%3E%3Crect x='150' y='80' width='10' height='10' fill='%23fff'/%3E%3Crect x='100' y='90' width='10' height='10' fill='%23fff'/%3E%3Crect x='100' y='80' width='10' height='10' fill='%23fff'/%3E%3Crect x='100' y='70' width='10' height='10' fill='%23fff'/%3E%3Crect x='100' y='60' width='10' height='10' fill='%23fff'/%3E%3Crect x='100' y='50' width='10' height='10' fill='%23fff'/%3E%3Crect x='100' y='40' width='10' height='10' fill='%23fff'/%3E%3Crect x='90' y='30' width='10' height='10'/%3E%3Crect x='100' y='30' width='10' height='10'/%3E%3Crect x='110' y='40' width='10' height='10'/%3E%3Crect x='110' y='50' width='10' height='10'/%3E%3Crect x='110' y='60' width='10' height='10'/%3E%3Crect x='110' y='70' width='10' height='10'/%3E%3Crect x='110' y='80' width='10' height='10'/%3E%3Crect x='120' y='70' width='10' height='10'/%3E%3Crect x='130' y='70' width='10' height='10'/%3E%3Crect x='140' y='70' width='10' height='10'/%3E%3Crect x='150' y='70' width='10' height='10'/%3E%3Crect x='140' y='80' width='10' height='10'/%3E%3Crect x='160' y='80' width='10' height='10'/%3E%3Crect x='160' y='70' width='10' height='10'/%3E%3Crect x='160' y='90' width='10' height='10'/%3E%3Crect x='140' y='90' width='10' height='10'/%3E%3Crect x='170' y='80' width='10' height='10'/%3E%3Crect x='180' y='90' width='10' height='10'/%3E%3Crect x='180' y='100' width='10' height='10'/%3E%3Crect x='180' y='110' width='10' height='10'/%3E%3Crect x='180' y='120' width='10' height='10'/%3E%3Crect x='180' y='130' width='10' height='10'/%3E%3Crect x='180' y='140' width='10' height='10'/%3E%3Crect x='170' y='150' width='10' height='10'/%3E%3Crect x='170' y='160' width='10' height='10'/%3E%3Crect x='110' y='130' width='10' height='10'/%3E%3Crect x='110' y='140' width='10' height='10'/%3E%3Crect x='120' y='120' width='10' height='10'/%3E%3Crect x='130' y='130' width='10' height='10'/%3E%3Crect x='130' y='140' width='10' height='10'/%3E%3Crect x='140' y='120' width='10' height='10'/%3E%3Crect x='150' y='130' width='10' height='10'/%3E%3Crect x='150' y='140' width='10' height='10'/%3E%3Crect x='160' y='180' width='10' height='10'/%3E%3Crect x='160' y='170' width='10' height='10'/%3E%3Crect x='150' y='180' width='10' height='10'/%3E%3Crect x='140' y='180' width='10' height='10'/%3E%3Crect x='130' y='180' width='10' height='10'/%3E%3Crect x='120' y='180' width='10' height='10'/%3E%3Crect x='110' y='180' width='10' height='10'/%3E%3Crect x='100' y='180' width='10' height='10'/%3E%3Crect x='90' y='180' width='10' height='10'/%3E%3Crect x='90' y='170' width='10' height='10'/%3E%3Crect x='110' y='90' width='10' height='10'/%3E%3Crect x='80' y='100' width='10' height='10'/%3E%3Crect x='40' y='100' width='10' height='10'/%3E%3Crect x='50' y='110' width='10' height='10'/%3E%3Crect x='60' y='120' width='10' height='10'/%3E%3Crect x='60' y='130' width='10' height='10'/%3E%3Crect x='70' y='140' width='10' height='10'/%3E%3Crect x='80' y='160' width='10' height='10'/%3E%3Crect x='70' y='150' width='10' height='10'/%3E%3C/svg%3E") 8 6, pointer;
+}
+
 /* ── Undo/Redo ── */
 .undo-redo {
   position: fixed;
@@ -405,6 +431,18 @@ html, body {
     display: none;
   }
 
+  .mobile-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+  }
+
   .sidebar-menu {
     flex-direction: row;
     overflow-x: auto;
@@ -454,6 +492,12 @@ html, body {
     bottom: 12px;
     right: 12px;
   }
+
+  .watermark {
+    position: fixed;
+    bottom: 8px;
+    left: 50%;
+  }
 }
 
 /* ── Accessory Sub-category Tabs ── */
@@ -496,10 +540,11 @@ html, body {
 </style>
 </head>
 <body>
+<div class="mobile-logo" id="mobileLogo"><svg viewBox="3 5 74 70" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" style="width:18px;height:18px;margin-right:6px;fill:var(--text)"><rect x="35" y="50" width="10" height="10"/><rect x="35" y="40" width="10" height="10"/><rect x="35" y="30" width="10" height="10"/><rect x="25" y="40" width="10" height="10"/><rect x="55" y="40" width="10" height="10"/><rect x="45" y="50" width="10" height="10"/><rect x="45" y="20" width="10" height="10"/><rect x="55" y="20" width="10" height="10"/><rect x="25" y="20" width="10" height="10"/><rect x="15" y="10" width="10" height="10"/><rect x="45" y="10" width="10" height="10"/><rect x="15" y="20" width="10" height="10"/><rect x="35" y="20" width="10" height="10"/><rect x="15" y="30" width="10" height="10"/><rect x="25" y="30" width="5" height="10"/><rect x="15" y="50" width="10" height="10"/><rect x="5" y="40" width="10" height="10"/><rect x="25" y="50" width="10" height="10"/><rect x="25" y="60" width="10" height="10"/><rect x="15" y="40" width="10" height="10"/><rect x="55" y="30" width="10" height="10"/><rect x="45" y="30" width="5" height="10"/><rect x="45" y="40" width="10" height="10"/><rect x="55" y="50" width="10" height="10"/><rect x="45" y="60" width="10" height="10"/><rect x="65" y="40" width="10" height="10"/></svg>Pixie Lab</div>
 <div class="app">
   <!-- Sidebar -->
   <nav class="sidebar">
-    <div class="sidebar-title"><svg viewBox="3 5 74 70" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" style="width:20px;height:20px;vertical-align:middle;margin-right:8px;position:relative;top:-2px;fill:var(--text)"><rect x="35" y="50" width="10" height="10"/><rect x="35" y="40" width="10" height="10"/><rect x="35" y="30" width="10" height="10"/><rect x="25" y="40" width="10" height="10"/><rect x="55" y="40" width="10" height="10"/><rect x="45" y="50" width="10" height="10"/><rect x="45" y="20" width="10" height="10"/><rect x="55" y="20" width="10" height="10"/><rect x="25" y="20" width="10" height="10"/><rect x="15" y="10" width="10" height="10"/><rect x="45" y="10" width="10" height="10"/><rect x="15" y="20" width="10" height="10"/><rect x="35" y="20" width="10" height="10"/><rect x="15" y="30" width="10" height="10"/><rect x="25" y="30" width="5" height="10"/><rect x="15" y="50" width="10" height="10"/><rect x="5" y="40" width="10" height="10"/><rect x="25" y="50" width="10" height="10"/><rect x="25" y="60" width="10" height="10"/><rect x="15" y="40" width="10" height="10"/><rect x="55" y="30" width="10" height="10"/><rect x="45" y="30" width="5" height="10"/><rect x="45" y="40" width="10" height="10"/><rect x="55" y="50" width="10" height="10"/><rect x="45" y="60" width="10" height="10"/><rect x="65" y="40" width="10" height="10"/></svg>Pixie Lab</div>
+    <div class="sidebar-title" id="sidebarLogo"><svg viewBox="3 5 74 70" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" style="width:20px;height:20px;vertical-align:middle;margin-right:8px;position:relative;top:-2px;fill:var(--text)"><rect x="35" y="50" width="10" height="10"/><rect x="35" y="40" width="10" height="10"/><rect x="35" y="30" width="10" height="10"/><rect x="25" y="40" width="10" height="10"/><rect x="55" y="40" width="10" height="10"/><rect x="45" y="50" width="10" height="10"/><rect x="45" y="20" width="10" height="10"/><rect x="55" y="20" width="10" height="10"/><rect x="25" y="20" width="10" height="10"/><rect x="15" y="10" width="10" height="10"/><rect x="45" y="10" width="10" height="10"/><rect x="15" y="20" width="10" height="10"/><rect x="35" y="20" width="10" height="10"/><rect x="15" y="30" width="10" height="10"/><rect x="25" y="30" width="5" height="10"/><rect x="15" y="50" width="10" height="10"/><rect x="5" y="40" width="10" height="10"/><rect x="25" y="50" width="10" height="10"/><rect x="25" y="60" width="10" height="10"/><rect x="15" y="40" width="10" height="10"/><rect x="55" y="30" width="10" height="10"/><rect x="45" y="30" width="5" height="10"/><rect x="45" y="40" width="10" height="10"/><rect x="55" y="50" width="10" height="10"/><rect x="45" y="60" width="10" height="10"/><rect x="65" y="40" width="10" height="10"/></svg>Pixie Lab</div>
     <div class="sidebar-menu" id="sidebarMenu"></div>
     <div class="sidebar-download">
       <button id="downloadBtn"><svg class="cat-icon" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect y="25" width="10" height="10"/><rect y="35" width="10" height="10"/><rect y="45" width="10" height="10"/><rect y="55" width="10" height="10"/><rect x="10" y="65" width="10" height="10"/><rect x="20" y="65" width="10" height="10"/><rect x="30" y="65" width="10" height="10"/><rect x="40" y="65" width="10" height="10"/><rect x="50" y="65" width="10" height="10"/><rect x="60" y="65" width="10" height="10"/><rect x="70" y="55" width="10" height="10"/><rect x="70" y="45" width="10" height="10"/><rect x="70" y="35" width="10" height="10"/><rect x="70" y="25" width="10" height="10"/><rect x="60" y="15" width="10" height="10"/><rect x="50" y="15" width="10" height="10"/><rect x="40" y="15" width="10" height="10"/><rect x="30" y="15" width="10" height="10"/><rect x="20" y="5" width="10" height="10"/><rect x="30" y="5" width="10" height="10"/><rect x="10" y="5" width="10" height="10"/><rect y="15" width="10" height="10"/><rect y="5" width="10" height="10"/></svg>Save</button>
@@ -524,6 +569,7 @@ html, body {
         <button class="btn-create" id="createBtn"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" style="width:16px;height:16px"><rect x="15" y="35" width="10" height="10"/><rect x="5" y="35" width="10" height="10"/><rect x="25" y="35" width="10" height="10"/><rect x="35" y="35" width="10" height="10"/><rect x="35" y="45" width="10" height="10"/><rect x="35" y="55" width="10" height="10"/><rect x="35" y="65" width="10" height="10"/><rect x="35" y="25" width="10" height="10"/><rect x="35" y="15" width="10" height="10"/><rect x="35" y="5" width="10" height="10"/><rect x="45" y="35" width="10" height="10"/><rect x="55" y="35" width="10" height="10"/><rect x="65" y="35" width="10" height="10"/></svg> Create</button>
       </div>
     </div>
+    <footer class="watermark">Copyright &copy; 2026 <a href="https://meanimize.xyz/" target="_blank" class="watermark-link">Studio Meanimize</a> All rights reserved.</footer>
   </main>
 </div>
 
@@ -554,20 +600,11 @@ html, body {
   const SKIN_COLORS = ['#fff', '#e6e6e6', '#b3b3b3', 'gray', '#4d4d4d', '#333', 'blue'];
   const HAIR_COLORS = ['#e6e6e6', '#b3b3b3', 'gray', '#4d4d4d', '#333', 'blue'];
   const ACC_COLORS = ['#e6e6e6', '#b3b3b3', 'gray', '#4d4d4d', '#333', 'blue'];
-  const BG_COLORS = ['#ffffff', '#f5f5f5', '#e8e8e8', '#d0d0d0', '#b3b3b3', '#333', 'blue'];
-  const BG_GRADIENTS = [
-    'linear-gradient(135deg, #f5f5f5, #d0d0d0)',
-    'linear-gradient(135deg, #e8e8e8, #333)',
-    'linear-gradient(135deg, #fff, #b3b3b3)',
-    'linear-gradient(135deg, #1a1a1a, #4d4d4d)',
-    'linear-gradient(135deg, #ff6b6b, #ffa07a)',
-    'linear-gradient(135deg, #a8e6cf, #88d8b0)',
-    'linear-gradient(135deg, #87ceeb, #6495ed)',
-    'linear-gradient(135deg, #dda0dd, #ba55d3)',
-    'linear-gradient(135deg, #ffdb58, #ffa500)',
-    'linear-gradient(135deg, #ff69b4, #ff1493)',
-    'linear-gradient(135deg, #00ced1, #20b2aa)',
-    'linear-gradient(135deg, #ff6347, #dc143c)',
+  const BG_COLORS = ['#ffffff', '#333', 'blue'];
+  const BG_PRESETS = [
+    '#ff6b6b', '#ffa07a', '#ffdb58', '#ffa500',
+    '#a8e6cf', '#88d8b0', '#87ceeb', '#6495ed',
+    '#dda0dd', '#ba55d3', '#ff69b4', '#00ced1',
   ];
 
   // ── Accessory Sub-categories ──
@@ -1073,8 +1110,8 @@ html, body {
 
       // Gradient presets below
       html += '<div class="options-grid">';
-      BG_GRADIENTS.forEach((grad, i) => {
-        const isActive = state.bgType === 'gradient' && state.bgGradient === i;
+      BG_PRESETS.forEach((grad, i) => {
+        const isActive = state.bgType === 'preset' && state.bgGradient === i;
         html += `<button class="option-box${isActive ? ' active' : ''}" data-bg-grad="${i}" style="background:${grad};border-radius:8px;"></button>`;
       });
       html += '</div>';
@@ -1113,7 +1150,7 @@ html, body {
       btn.addEventListener('click', () => {
         // Gradient option click
         if (btn.dataset.bgGrad !== undefined) {
-          state.bgType = 'gradient';
+          state.bgType = 'preset';
           state.bgGradient = parseInt(btn.dataset.bgGrad);
           renderOptions(cat);
           updateCardBackground();
@@ -1217,8 +1254,8 @@ html, body {
   // ── Background ──
   function updateCardBackground() {
     const card = document.getElementById('avatarCard');
-    if (state.bgType === 'gradient') {
-      card.style.background = BG_GRADIENTS[state.bgGradient] || '#ffffff';
+    if (state.bgType === 'preset') {
+      card.style.background = BG_PRESETS[state.bgGradient] || '#ffffff';
     } else {
       const colors = getColorPalette('background');
       card.style.background = colors[state.bgColor] || '#ffffff';
@@ -1226,11 +1263,33 @@ html, body {
   }
 
   function getBgCssValue() {
-    if (state.bgType === 'gradient') {
-      return BG_GRADIENTS[state.bgGradient] || '#ffffff';
+    if (state.bgType === 'preset') {
+      return BG_PRESETS[state.bgGradient] || '#ffffff';
     }
     const colors = getColorPalette('background');
     return colors[state.bgColor] || '#ffffff';
+  }
+
+  // ── Home ──
+  function resetToHome() {
+    state = {
+      face: 0, skinColor: 0, eyes: 0, mouth: 0,
+      hair: -1, hairColor: 2,
+      accessory: [-1,-1,-1,-1],
+      accColor0: 2, accColor1: 2, accColor2: 2, accColor3: 2,
+      skinHue: 240, hairHue: 240,
+      accHue0: 240, accHue1: 240, accHue2: 240, accHue3: 240,
+      bgType: 'solid', bgColor: 0, bgGradient: 0, bgHue: 240,
+    };
+    activeCategory = null;
+    overlayVisible = true;
+    document.getElementById('overlayButtons').classList.remove('hidden');
+    document.getElementById('subsidebar').classList.remove('open');
+    history = [];
+    historyIndex = -1;
+    renderAvatar();
+    renderSidebar();
+    updateUndoRedo();
   }
 
   // ── Overlay ──
@@ -1328,14 +1387,20 @@ html, body {
       }
     }
 
-    // Background: 50% solid, 50% gradient
+    // Background: 50% solid, 50% gradient — avoid same color as hair/acc
     if (Math.random() < 0.5) {
       state.bgType = 'solid';
-      state.bgColor = Math.floor(Math.random() * BG_COLORS.length);
-      if (state.bgColor === BG_COLORS.length - 1) state.bgHue = Math.floor(Math.random() * 360);
+      state.bgColor = pickDistinctColor(BG_COLORS, 'bgHue', usedColors);
+      usedColors.push(resolveColor(BG_COLORS, state.bgColor, state.bgHue));
     } else {
-      state.bgType = 'gradient';
-      state.bgGradient = Math.floor(Math.random() * BG_GRADIENTS.length);
+      state.bgType = 'preset';
+      // Pick preset color that doesn't match hair/acc
+      const presetIndices = BG_PRESETS.map((_, i) => i).sort(() => Math.random() - 0.5);
+      let picked = 0;
+      for (const pi of presetIndices) {
+        if (!usedColors.includes(BG_PRESETS[pi])) { picked = pi; break; }
+      }
+      state.bgGradient = picked;
     }
 
     renderAvatar();
@@ -1374,8 +1439,8 @@ html, body {
         state.bgColor = Math.floor(Math.random() * BG_COLORS.length);
         if (state.bgColor === BG_COLORS.length - 1) state.bgHue = Math.floor(Math.random() * 360);
       } else {
-        state.bgType = 'gradient';
-        state.bgGradient = Math.floor(Math.random() * BG_GRADIENTS.length);
+        state.bgType = 'preset';
+        state.bgGradient = Math.floor(Math.random() * BG_PRESETS.length);
       }
       updateCardBackground();
     }
@@ -1471,23 +1536,8 @@ html, body {
     const ctx = canvas.getContext('2d');
 
     // Draw background
-    if (state.bgType === 'gradient') {
-      const gradStr = BG_GRADIENTS[state.bgGradient] || '';
-      // Parse gradient colors from "linear-gradient(135deg, color1, color2)"
-      const match = gradStr.match(/linear-gradient\(\s*(\d+)deg,\s*(.+),\s*(.+)\s*\)/);
-      if (match) {
-        const angle = parseFloat(match[1]) * Math.PI / 180;
-        const x0 = 280 - Math.cos(angle) * 280;
-        const y0 = 280 - Math.sin(angle) * 280;
-        const x1 = 280 + Math.cos(angle) * 280;
-        const y1 = 280 + Math.sin(angle) * 280;
-        const grad = ctx.createLinearGradient(x0, y0, x1, y1);
-        grad.addColorStop(0, match[2].trim());
-        grad.addColorStop(1, match[3].trim());
-        ctx.fillStyle = grad;
-      } else {
-        ctx.fillStyle = '#f5f5f5';
-      }
+    if (state.bgType === 'preset') {
+      ctx.fillStyle = BG_PRESETS[state.bgGradient] || '#f5f5f5';
     } else {
       const bgColors = getColorPalette('background');
       ctx.fillStyle = bgColors[state.bgColor] || '#f5f5f5';
@@ -1507,7 +1557,7 @@ html, body {
       URL.revokeObjectURL(url);
 
       const link = document.createElement('a');
-      link.download = 'avatar.png';
+      link.download = 'me.png';
       link.href = canvas.toDataURL('image/png');
       link.click();
     };
@@ -1555,6 +1605,10 @@ html, body {
     document.getElementById('subRandomBtn').addEventListener('click', () => {
       if (activeCategory) randomizeCategory(activeCategory);
     });
+
+    // Logo → home
+    document.getElementById('sidebarLogo').addEventListener('click', resetToHome);
+    document.getElementById('mobileLogo').addEventListener('click', resetToHome);
 
     // Download
     document.getElementById('downloadBtn').addEventListener('click', downloadAvatar);
