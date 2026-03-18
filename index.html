@@ -1029,16 +1029,7 @@ html, body {
       svgContent += renderRects(PARTS.eyes[eyesIdx], '#000', null);
     }
 
-    // Layer 4: Mouth (keep original colors)
-    if (PARTS.mouth[mouthIdx]) {
-      const mouthPoints = PARTS.mouth[mouthIdx];
-      for (const p of mouthPoints) {
-        const color = p[2] || '#000';
-        svgContent += rect(p[0], p[1], color);
-      }
-    }
-
-    // Layer 4.5: Mood accessories (above mouth, below hair)
+    // Layer 3.5: Mood accessories (below mouth)
     if (skinAccGi >= 0) {
       const accIdx = state.accessory[skinAccGi];
       if (accIdx >= 0) {
@@ -1058,6 +1049,15 @@ html, body {
             svgContent += rect(p[0], p[1], fill);
           }
         }
+      }
+    }
+
+    // Layer 4: Mouth (keep original colors)
+    if (PARTS.mouth[mouthIdx]) {
+      const mouthPoints = PARTS.mouth[mouthIdx];
+      for (const p of mouthPoints) {
+        const color = p[2] || '#000';
+        svgContent += rect(p[0], p[1], color);
       }
     }
 
