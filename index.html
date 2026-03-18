@@ -554,7 +554,7 @@ html, body {
   const SKIN_COLORS = ['#fff', '#e6e6e6', '#b3b3b3', 'gray', '#4d4d4d', '#333', 'blue'];
   const HAIR_COLORS = ['#e6e6e6', '#b3b3b3', 'gray', '#4d4d4d', '#333', 'blue'];
   const ACC_COLORS = ['#e6e6e6', '#b3b3b3', 'gray', '#4d4d4d', '#333', 'blue'];
-  const BG_COLORS = ['#ffffff', '#f5f5f5', '#e8e8e8', '#d0d0d0', '#b3b3b3', '#333', '#1a1a1a', 'blue'];
+  const BG_COLORS = ['#ffffff', '#f5f5f5', '#e8e8e8', '#d0d0d0', '#b3b3b3', '#333', 'blue'];
   const BG_GRADIENTS = [
     'linear-gradient(135deg, #f5f5f5, #d0d0d0)',
     'linear-gradient(135deg, #e8e8e8, #333)',
@@ -1068,24 +1068,16 @@ html, body {
       }
       html += '</div>';
     } else if (cat.id === 'background') {
-      // Background: solid/gradient tabs
-      html += '<div class="acc-tabs">';
-      html += `<button class="acc-tab${bgTabIdx === 0 ? ' active' : ''}" data-bgtab="0">Solid</button>`;
-      html += `<button class="acc-tab${bgTabIdx === 1 ? ' active' : ''}" data-bgtab="1">Gradient</button>`;
-      html += '</div>';
+      // Solid color palette
+      html += renderColorPaletteHtml('background');
 
-      if (bgTabIdx === 0) {
-        // Solid color palette
-        html += renderColorPaletteHtml('background');
-      } else {
-        // Gradient presets
-        html += '<div class="options-grid">';
-        BG_GRADIENTS.forEach((grad, i) => {
-          const isActive = state.bgType === 'gradient' && state.bgGradient === i;
-          html += `<button class="option-box${isActive ? ' active' : ''}" data-bg-grad="${i}" style="background:${grad};border-radius:8px;"></button>`;
-        });
-        html += '</div>';
-      }
+      // Gradient presets below
+      html += '<div class="options-grid">';
+      BG_GRADIENTS.forEach((grad, i) => {
+        const isActive = state.bgType === 'gradient' && state.bgGradient === i;
+        html += `<button class="option-box${isActive ? ' active' : ''}" data-bg-grad="${i}" style="background:${grad};border-radius:8px;"></button>`;
+      });
+      html += '</div>';
     } else {
       // Color palette above options for non-accessory categories
       if (cat.hasColorPalette) {
@@ -1155,7 +1147,7 @@ html, body {
     });
 
     // Bind color palette events
-    if (cat.id === 'background' && bgTabIdx === 0) {
+    if (cat.id === 'background') {
       bindColorPaletteEvents(container, cat);
     } else if (cat.hasColorPalette) {
       bindColorPaletteEvents(container, cat);
