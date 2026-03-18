@@ -1342,9 +1342,34 @@ html, body {
   function downloadAvatar() {
     const svgEl = document.getElementById('avatarSvg');
     const clone = svgEl.cloneNode(true);
-    clone.setAttribute('width', '240');
-    clone.setAttribute('height', '240');
     clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+
+    // Calculate bounding box of all rects to center content
+    const rects = clone.querySelectorAll('rect');
+    let minX = 240, minY = 240, maxX = 0, maxY = 0;
+    rects.forEach(r => {
+      const rx = parseFloat(r.getAttribute('x'));
+      const ry = parseFloat(r.getAttribute('y'));
+      const rw = parseFloat(r.getAttribute('width')) || 10;
+      const rh = parseFloat(r.getAttribute('height')) || 10;
+      if (rx < minX) minX = rx;
+      if (ry < minY) minY = ry;
+      if (rx + rw > maxX) maxX = rx + rw;
+      if (ry + rh > maxY) maxY = ry + rh;
+    });
+
+    const contentW = maxX - minX;
+    const contentH = maxY - minY;
+    const contentCx = minX + contentW / 2;
+    const contentCy = minY + contentH / 2;
+
+    // Center viewBox around content center, using the larger dimension
+    const dim = Math.max(contentW, contentH) + 20; // 10px padding each side
+    const vbX = contentCx - dim / 2;
+    const vbY = contentCy - dim / 2;
+    clone.setAttribute('viewBox', `${vbX} ${vbY} ${dim} ${dim}`);
+    clone.setAttribute('width', `${dim}`);
+    clone.setAttribute('height', `${dim}`);
 
     const svgData = new XMLSerializer().serializeToString(clone);
     const canvas = document.createElement('canvas');
