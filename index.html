@@ -1709,7 +1709,7 @@ html, body {
     const contentH = maxY - minY;
     const contentCx = minX + contentW / 2;
     const contentCy = minY + contentH / 2;
-    const dim = Math.max(contentW, contentH) + 80;
+    const dim = Math.max(Math.max(contentW, contentH) + 80, 280);
     const vbX = contentCx - dim / 2;
     const vbY = contentCy - dim / 2;
     clone.setAttribute('viewBox', `${vbX} ${vbY} ${dim} ${dim}`);
