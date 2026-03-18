@@ -1706,9 +1706,16 @@ html, body {
     });
     const contentW = maxX - minX;
     const contentH = maxY - minY;
-    const contentCx = minX + contentW / 2;
-    const contentCy = minY + contentH / 2;
-    const dim = Math.max(contentW, contentH) + 80;
+    // Use face center (120,120) as anchor to prevent off-center accessories from shifting
+    const contentCx = 120;
+    const contentCy = 120;
+    // Calculate dim to contain all content while centered on face
+    const extentL = contentCx - minX;
+    const extentR = maxX - contentCx;
+    const extentT = contentCy - minY;
+    const extentB = maxY - contentCy;
+    const maxExtent = Math.max(extentL, extentR, extentT, extentB);
+    const dim = maxExtent * 2 + 80;
     const vbX = contentCx - dim / 2;
     const vbY = contentCy - dim / 2;
     clone.setAttribute('viewBox', `${vbX} ${vbY} ${dim} ${dim}`);
