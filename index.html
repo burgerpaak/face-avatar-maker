@@ -1364,7 +1364,7 @@ html, body {
     const contentCy = minY + contentH / 2;
 
     // Center viewBox around content center, using the larger dimension
-    const dim = Math.max(contentW, contentH) + 20; // 10px padding each side
+    const dim = Math.max(contentW, contentH) + 80; // 40px padding each side
     const vbX = contentCx - dim / 2;
     const vbY = contentCy - dim / 2;
     clone.setAttribute('viewBox', `${vbX} ${vbY} ${dim} ${dim}`);
