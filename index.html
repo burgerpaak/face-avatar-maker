@@ -1750,6 +1750,15 @@ html, body {
     const clone = svgEl.cloneNode(true);
     clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
 
+    // Face center for X-axis, content center for Y-axis
+    const facePts = PARTS.face[state.face] || PARTS.face[0];
+    let fMinX = 240, fMaxX = 0;
+    for (const p of facePts) {
+      if (p[0] < fMinX) fMinX = p[0];
+      if (p[0] + 10 > fMaxX) fMaxX = p[0] + 10;
+    }
+    const faceCx = (fMinX + fMaxX) / 2;
+
     const rects = clone.querySelectorAll('rect');
     let minX = 240, minY = 240, maxX = 0, maxY = 0;
     rects.forEach(r => {
@@ -1763,13 +1772,23 @@ html, body {
       if (rx + rw > maxX) maxX = rx + rw;
       if (ry + rh > maxY) maxY = ry + rh;
     });
-    const contentW = maxX - minX;
     const contentH = maxY - minY;
-    const contentCx = minX + contentW / 2;
     const contentCy = minY + contentH / 2;
-    const dim = Math.max(Math.max(contentW, contentH) + 80, 280);
-    const vbX = contentCx - dim / 2;
-    const vbY = contentCy - dim / 2;
+    // Base dim from height only (X-axis accessories don't affect size)
+    let dim = Math.max(contentH + 80, 280);
+    // Position: X=face center, Y=content center
+    let vbX = faceCx - dim / 2;
+    let vbY = contentCy - dim / 2;
+    // Expand only if content would be clipped on X-axis
+    const clipL = Math.max(0, vbX - minX);
+    const clipR = Math.max(0, maxX - (vbX + dim));
+    if (clipL > 0 || clipR > 0) {
+      dim += clipL + clipR;
+      vbX = faceCx - dim / 2;
+      vbY = contentCy - dim / 2;
+      // Re-check left edge after re-centering
+      if (minX < vbX) vbX = minX;
+    }
     clone.setAttribute('viewBox', `${vbX} ${vbY} ${dim} ${dim}`);
     clone.setAttribute('width', `${dim}`);
     clone.setAttribute('height', `${dim}`);
@@ -1820,7 +1839,15 @@ html, body {
     const clone = svgEl.cloneNode(true);
     clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
 
-    // Calculate bounding box of all rects to center content
+    // Face center for X-axis, content center for Y-axis
+    const facePts = PARTS.face[state.face] || PARTS.face[0];
+    let fMinX = 240, fMaxX = 0;
+    for (const p of facePts) {
+      if (p[0] < fMinX) fMinX = p[0];
+      if (p[0] + 10 > fMaxX) fMaxX = p[0] + 10;
+    }
+    const faceCx = (fMinX + fMaxX) / 2;
+
     const rects = clone.querySelectorAll('rect');
     let minX = 240, minY = 240, maxX = 0, maxY = 0;
     rects.forEach(r => {
@@ -1835,15 +1862,22 @@ html, body {
       if (ry + rh > maxY) maxY = ry + rh;
     });
 
-    const contentW = maxX - minX;
     const contentH = maxY - minY;
-    const contentCx = minX + contentW / 2;
     const contentCy = minY + contentH / 2;
-
-    // Center viewBox around content center, using the larger dimension
-    const dim = Math.max(contentW, contentH) + 80; // 40px padding each side
-    const vbX = contentCx - dim / 2;
-    const vbY = contentCy - dim / 2;
+    // Base dim from height only (X-axis accessories don't affect size)
+    let dim = Math.max(contentH + 80, 280);
+    // Position: X=face center, Y=content center
+    let vbX = faceCx - dim / 2;
+    let vbY = contentCy - dim / 2;
+    // Expand only if content would be clipped on X-axis
+    const clipL = Math.max(0, vbX - minX);
+    const clipR = Math.max(0, maxX - (vbX + dim));
+    if (clipL > 0 || clipR > 0) {
+      dim += clipL + clipR;
+      vbX = faceCx - dim / 2;
+      vbY = contentCy - dim / 2;
+      if (minX < vbX) vbX = minX;
+    }
     clone.setAttribute('viewBox', `${vbX} ${vbY} ${dim} ${dim}`);
     clone.setAttribute('width', `${dim}`);
     clone.setAttribute('height', `${dim}`);
