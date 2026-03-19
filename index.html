@@ -603,10 +603,14 @@ html, body {
     flex: 1;
     min-height: 0;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-    padding-top: 20px;
     overflow: hidden;
+  }
+
+  .subsidebar.open ~ .preview {
+    align-items: flex-start;
+    padding-top: 40px;
   }
 
   .avatar-card {
