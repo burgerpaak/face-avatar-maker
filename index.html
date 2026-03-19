@@ -707,7 +707,7 @@ html, body {
     <div class="save-modal-options">
       <label class="texture-toggle"><input type="checkbox" class="texture-checkbox" id="grainCheckbox"><span class="toggle-switch"></span><span class="texture-label">Texture</span></label>
     </div>
-    <button class="save-modal-download" id="saveModalDownload">Share</button>
+    <button class="save-modal-download" id="saveModalDownload">Download</button>
   </div>
 </div>
 
@@ -1651,10 +1651,13 @@ html, body {
   }
 
   // ── Download ──
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
   function openSaveModal() {
     document.getElementById('saveModal').classList.remove('hidden');
     document.getElementById('grainCheckbox').checked = false;
     state.bgTexture = false;
+    document.getElementById('saveModalDownload').textContent = isMobile ? 'Share' : 'Download';
     updateSavePreview();
   }
 
@@ -1836,13 +1839,12 @@ html, body {
       URL.revokeObjectURL(url);
 
       canvas.toBlob(async (blob) => {
-        if (navigator.share && navigator.canShare) {
+        if (isMobile && navigator.share && navigator.canShare) {
           const file = new File([blob], 'me.png', { type: 'image/png' });
           try {
             await navigator.share({ files: [file] });
           } catch (e) {
             if (e.name !== 'AbortError') {
-              // Fallback to download
               const link = document.createElement('a');
               link.download = 'me.png';
               link.href = URL.createObjectURL(blob);
@@ -1851,7 +1853,6 @@ html, body {
             }
           }
         } else {
-          // Fallback to download for unsupported browsers
           const link = document.createElement('a');
           link.download = 'me.png';
           link.href = URL.createObjectURL(blob);
