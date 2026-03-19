@@ -909,22 +909,34 @@ html, body {
   function getCategoryBBox(partKey) {
     if (thumbBBoxCache[partKey]) return thumbBBoxCache[partKey];
     const partsArr = PARTS[partKey] || [];
-    let minX = 240, minY = 240, maxX = 0, maxY = 0;
+    // Calculate per-item bboxes and find max dimensions
+    const itemBBoxes = [];
+    let maxW = 0, maxH = 0;
     for (let i = 0; i < partsArr.length; i++) {
       let pts = partsArr[i];
       if (partKey === 'hair') {
         if (PARTS.hairOverlay[i]) pts = pts.concat(PARTS.hairOverlay[i]);
         if (PARTS.hairBack && PARTS.hairBack[i] && PARTS.hairBack[i].length > 0) pts = pts.concat(PARTS.hairBack[i]);
       }
+      let iMinX = 240, iMinY = 240, iMaxX = 0, iMaxY = 0;
       for (const p of pts) {
-        minX = Math.min(minX, p[0]);
-        minY = Math.min(minY, p[1]);
-        maxX = Math.max(maxX, p[0] + 10);
-        maxY = Math.max(maxY, p[1] + 10);
+        iMinX = Math.min(iMinX, p[0]);
+        iMinY = Math.min(iMinY, p[1]);
+        iMaxX = Math.max(iMaxX, p[0] + 10);
+        iMaxY = Math.max(iMaxY, p[1] + 10);
       }
+      const cx = (iMinX + iMaxX) / 2;
+      const cy = (iMinY + iMaxY) / 2;
+      const w = iMaxX - iMinX;
+      const h = iMaxY - iMinY;
+      itemBBoxes.push({ cx, cy, w, h });
+      maxW = Math.max(maxW, w);
+      maxH = Math.max(maxH, h);
     }
     const pad = 5;
-    thumbBBoxCache[partKey] = { vx: minX - pad, vy: minY - pad, vw: maxX - minX + pad * 2, vh: maxY - minY + pad * 2 };
+    const uniW = maxW + pad * 2;
+    const uniH = maxH + pad * 2;
+    thumbBBoxCache[partKey] = { itemBBoxes, uniW, uniH };
     return thumbBBoxCache[partKey];
   }
 
@@ -951,8 +963,13 @@ html, body {
       if (PARTS.hairBack && PARTS.hairBack[idx] && PARTS.hairBack[idx].length > 0) allPoints = allPoints.concat(PARTS.hairBack[idx]);
     }
 
-    // Use shared bounding box for consistent pixel size within category
-    const { vx, vy, vw, vh } = getCategoryBBox(partKey);
+    // Per-item centered viewBox with unified dimensions
+    const { itemBBoxes, uniW, uniH } = getCategoryBBox(partKey);
+    const bbox = itemBBoxes[idx];
+    const vx = bbox.cx - uniW / 2;
+    const vy = bbox.cy - uniH / 2;
+    const vw = uniW;
+    const vh = uniH;
 
     let rects = '';
 
@@ -1514,7 +1531,13 @@ html, body {
   function randomizeAll() {
     state.face = Math.floor(Math.random() * PARTS.face.length);
     state.eyes = Math.floor(Math.random() * PARTS.eyes.length);
-    state.mouth = Math.floor(Math.random() * PARTS.mouth.length);
+    // mouth-9(rainbow tongue) 확률 2.5%, 나머지 균등
+    if (Math.random() < 0.025) {
+      state.mouth = 9;
+    } else {
+      state.mouth = Math.floor(Math.random() * (PARTS.mouth.length - 1));
+      if (state.mouth >= 9) state.mouth++;
+    }
 
     // Hair: -1 (none) or 0..n
     if (PARTS.hair.length > 0) {
@@ -1544,8 +1567,12 @@ html, body {
     // Pick distinct colors for skin, hair, accessory
     const usedColors = [];
 
-    // Skin color first
+    // Skin color first (eyes with #fff pixels can't pair with #fff skin)
     state.skinColor = pickDistinctColor(SKIN_COLORS, 'skinHue', usedColors);
+    // Eyes 15 has white pixels — avoid white skin (#fff = index 0)
+    if (state.eyes === 15 && state.skinColor === 0) {
+      state.skinColor = 1 + Math.floor(Math.random() * (SKIN_COLORS.length - 2)); // skip index 0
+    }
     usedColors.push(resolveColor(SKIN_COLORS, state.skinColor, state.skinHue));
 
     // Hair color (only matters if hair is visible)
