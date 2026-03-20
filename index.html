@@ -162,6 +162,10 @@ html, body {
   white-space: nowrap;
 }
 
+.header-palette {
+  display: none;
+}
+
 .subsidebar-random {
   width: 34px;
   height: 34px;
@@ -212,6 +216,7 @@ html, body {
 
 .option-box:hover { background: var(--hover); }
 .option-box.active { background: var(--selected); border-color: #666; }
+.option-box.active[data-bg-grad] { border-color: #fff; }
 
 .option-box svg {
   width: 70%;
@@ -565,12 +570,23 @@ html, body {
     padding: 8px;
     gap: 4px;
     flex: 1;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
+  .sidebar-menu::-webkit-scrollbar { display: none; }
 
   .sidebar-item {
     white-space: nowrap;
-    padding: 8px 12px;
+    padding: 8px 10px;
     font-size: 13px;
+  }
+
+  .sidebar-item span:not(.cat-icon) {
+    display: none;
+  }
+
+  .sidebar-item.active span:not(.cat-icon) {
+    display: inline;
   }
 
   .sidebar-download {
@@ -583,6 +599,72 @@ html, body {
   .sidebar-download button {
     padding: 8px 14px;
     white-space: nowrap;
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+  }
+
+  .sidebar-download button .cat-icon {
+    fill: var(--bg);
+  }
+
+  .sidebar-download button:hover {
+    background: var(--text);
+    opacity: 0.85;
+  }
+
+  .sidebar-download .save-label {
+    display: none;
+  }
+
+  .subsidebar-title {
+    display: none;
+  }
+
+  .subsidebar-header {
+    height: 54px;
+    min-height: 54px;
+    max-height: 54px;
+    padding: 0 18px;
+    box-sizing: border-box;
+  }
+
+  .header-palette {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    flex: 1;
+    margin-right: 10px;
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+
+  .header-palette .color-swatch {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  .header-palette .hue-slider-wrap {
+    display: none;
+  }
+
+  .subsidebar-options {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .subsidebar-options::-webkit-scrollbar { display: none; }
+
+  .subsidebar-options > .color-palette {
+    display: none;
+  }
+
+  .subsidebar-options > .hue-slider-wrap {
+    padding: 0 0 8px;
+  }
+
+  .app {
+    position: relative;
   }
 
   .subsidebar {
@@ -591,14 +673,22 @@ html, body {
     border-right: none;
     border-bottom: 1px solid var(--border);
     transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background: var(--surface);
+    border-radius: 0 0 20px 20px;
   }
 
   .subsidebar.open {
-    max-height: 220px;
+    max-height: 50vh;
     width: 100% !important;
     overflow-y: auto;
-    margin-bottom: 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
+  .subsidebar.open::-webkit-scrollbar { display: none; }
 
   .preview {
     flex: 1;
@@ -607,20 +697,11 @@ html, body {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-  }
-
-  .subsidebar.open ~ .preview {
-    align-items: flex-start;
-    padding-top: 40px;
-  }
-
-  .subsidebar.open ~ .preview .avatar-card {
-    transform: none;
+    padding-bottom: 140px;
   }
 
   .avatar-card {
     width: 260px;
-    transform: translateY(-60px);
   }
 
   .undo-redo {
@@ -682,7 +763,7 @@ html, body {
     <div class="sidebar-title" id="sidebarLogo"><svg viewBox="3 5 74 70" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" style="width:20px;height:20px;vertical-align:middle;margin-right:8px;position:relative;top:-2px;fill:var(--text)"><rect x="35" y="50" width="10" height="10"/><rect x="35" y="40" width="10" height="10"/><rect x="35" y="30" width="10" height="10"/><rect x="25" y="40" width="10" height="10"/><rect x="55" y="40" width="10" height="10"/><rect x="45" y="50" width="10" height="10"/><rect x="45" y="20" width="10" height="10"/><rect x="55" y="20" width="10" height="10"/><rect x="25" y="20" width="10" height="10"/><rect x="15" y="10" width="10" height="10"/><rect x="45" y="10" width="10" height="10"/><rect x="15" y="20" width="10" height="10"/><rect x="35" y="20" width="10" height="10"/><rect x="15" y="30" width="10" height="10"/><rect x="25" y="30" width="5" height="10"/><rect x="15" y="50" width="10" height="10"/><rect x="5" y="40" width="10" height="10"/><rect x="25" y="50" width="10" height="10"/><rect x="25" y="60" width="10" height="10"/><rect x="15" y="40" width="10" height="10"/><rect x="55" y="30" width="10" height="10"/><rect x="45" y="30" width="5" height="10"/><rect x="45" y="40" width="10" height="10"/><rect x="55" y="50" width="10" height="10"/><rect x="45" y="60" width="10" height="10"/><rect x="65" y="40" width="10" height="10"/></svg>Pixie Lab</div>
     <div class="sidebar-menu" id="sidebarMenu"></div>
     <div class="sidebar-download">
-      <button id="downloadBtn"><svg class="cat-icon" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect y="25" width="10" height="10"/><rect y="35" width="10" height="10"/><rect y="45" width="10" height="10"/><rect y="55" width="10" height="10"/><rect x="10" y="65" width="10" height="10"/><rect x="20" y="65" width="10" height="10"/><rect x="30" y="65" width="10" height="10"/><rect x="40" y="65" width="10" height="10"/><rect x="50" y="65" width="10" height="10"/><rect x="60" y="65" width="10" height="10"/><rect x="70" y="55" width="10" height="10"/><rect x="70" y="45" width="10" height="10"/><rect x="70" y="35" width="10" height="10"/><rect x="70" y="25" width="10" height="10"/><rect x="60" y="15" width="10" height="10"/><rect x="50" y="15" width="10" height="10"/><rect x="40" y="15" width="10" height="10"/><rect x="30" y="15" width="10" height="10"/><rect x="20" y="5" width="10" height="10"/><rect x="30" y="5" width="10" height="10"/><rect x="10" y="5" width="10" height="10"/><rect y="15" width="10" height="10"/><rect y="5" width="10" height="10"/></svg>Save</button>
+      <button id="downloadBtn"><svg class="cat-icon" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect y="25" width="10" height="10"/><rect y="35" width="10" height="10"/><rect y="45" width="10" height="10"/><rect y="55" width="10" height="10"/><rect x="10" y="65" width="10" height="10"/><rect x="20" y="65" width="10" height="10"/><rect x="30" y="65" width="10" height="10"/><rect x="40" y="65" width="10" height="10"/><rect x="50" y="65" width="10" height="10"/><rect x="60" y="65" width="10" height="10"/><rect x="70" y="55" width="10" height="10"/><rect x="70" y="45" width="10" height="10"/><rect x="70" y="35" width="10" height="10"/><rect x="70" y="25" width="10" height="10"/><rect x="60" y="15" width="10" height="10"/><rect x="50" y="15" width="10" height="10"/><rect x="40" y="15" width="10" height="10"/><rect x="30" y="15" width="10" height="10"/><rect x="20" y="5" width="10" height="10"/><rect x="30" y="5" width="10" height="10"/><rect x="10" y="5" width="10" height="10"/><rect y="15" width="10" height="10"/><rect y="5" width="10" height="10"/></svg><span class="save-label">Save</span></button>
     </div>
   </nav>
 
@@ -690,6 +771,7 @@ html, body {
   <aside class="subsidebar" id="subsidebar">
     <div class="subsidebar-header">
       <span class="subsidebar-title" id="subsidebarTitle"></span>
+      <div class="header-palette" id="headerPalette"></div>
       <button class="subsidebar-random" id="subRandomBtn" title="랜덤"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" style="width:18px;height:18px;fill:var(--text)"><rect y="70" width="10" height="10"/><rect x="10" y="60" width="10" height="10"/><rect x="20" y="50" width="10" height="10"/><rect x="30" y="40" width="10" height="10"/><rect x="50" y="20" width="10" height="10"/><rect x="60" y="10" width="10" height="10"/><rect x="50" y="0" width="10" height="10"/><rect x="60" y="0" width="10" height="10"/><rect x="70" y="0" width="10" height="10"/><rect x="70" y="10" width="10" height="10"/><rect x="70" y="20" width="10" height="10"/><rect y="0" width="10" height="10"/><rect x="10" y="10" width="10" height="10"/><rect x="20" y="20" width="10" height="10"/><rect x="40" y="30" width="10" height="10"/><rect x="50" y="50" width="10" height="10"/><rect x="60" y="60" width="10" height="10"/><rect x="50" y="70" width="10" height="10"/><rect x="60" y="70" width="10" height="10"/><rect x="70" y="70" width="10" height="10"/><rect x="70" y="60" width="10" height="10"/><rect x="70" y="50" width="10" height="10"/></svg></button>
     </div>
     <div class="subsidebar-options" id="subsidebarOptions"></div>
@@ -745,7 +827,7 @@ html, body {
     { id: 'mouth', name: 'Mouth', icon: '<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect y="30" width="10" height="10"/><rect y="20" width="10" height="10"/><rect x="10" y="10" width="10" height="10"/><rect x="20" width="10" height="10"/><rect x="30" width="10" height="10"/><rect x="40" width="10" height="10"/><rect x="50" width="10" height="10"/><rect x="70" y="20" width="10" height="10"/><rect x="60" y="10" width="10" height="10"/><rect x="70" y="30" width="10" height="10"/><rect x="20" y="40" width="10" height="10"/><rect x="30" y="50" width="10" height="10"/><rect x="40" y="50" width="10" height="10"/><rect x="50" y="40" width="10" height="10"/><rect x="70" y="40" width="10" height="10"/><rect x="60" y="60" width="10" height="10"/><rect x="70" y="50" width="10" height="10"/><rect x="40" y="70" width="10" height="10"/><rect x="50" y="70" width="10" height="10"/><rect x="30" y="70" width="10" height="10"/><rect x="20" y="70" width="10" height="10"/><rect x="10" y="60" width="10" height="10"/><rect y="50" width="10" height="10"/><rect y="40" width="10" height="10"/></svg>' },
     { id: 'hair', name: 'Hair', icon: '<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect y="30" width="10" height="10"/><rect x="10" y="30" width="10" height="10"/><rect x="10" y="20" width="10" height="10"/><rect x="20" y="20" width="10" height="10"/><rect x="20" y="10" width="10" height="10"/><rect x="30" y="10" width="10" height="10"/><rect x="40" y="10" width="10" height="10"/><rect x="50" y="10" width="10" height="10"/><rect x="50" y="20" width="10" height="10"/><rect x="40" y="20" width="10" height="10"/><rect x="30" y="20" width="10" height="10"/><rect x="20" y="30" width="10" height="10"/><rect x="30" y="30" width="10" height="10"/><rect x="40" y="30" width="10" height="10"/><rect x="30" y="40" width="10" height="10"/><rect x="20" y="40" width="10" height="10"/><rect x="10" y="40" width="10" height="10"/><rect x="60" y="20" width="10" height="10"/><rect x="60" y="30" width="10" height="10"/><rect x="60" y="40" width="10" height="10"/><rect y="20" width="10" height="10"/><rect x="10" y="10" width="10" height="10"/><rect x="20" width="10" height="10"/><rect x="30" width="10" height="10"/><rect x="40" width="10" height="10"/><rect x="50" width="10" height="10"/><rect x="70" y="20" width="10" height="10"/><rect x="60" y="10" width="10" height="10"/><rect x="70" y="30" width="10" height="10"/><rect x="70" y="40" width="10" height="10"/><rect x="60" y="60" width="10" height="10"/><rect x="70" y="50" width="10" height="10"/><rect x="40" y="70" width="10" height="10"/><rect x="50" y="70" width="10" height="10"/><rect x="30" y="70" width="10" height="10"/><rect x="20" y="70" width="10" height="10"/><rect x="10" y="60" width="10" height="10"/><rect y="50" width="10" height="10"/><rect y="40" width="10" height="10"/></svg>', hasColorPalette: true },
     { id: 'accessory', name: 'Acc.', icon: '<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect x="25" y="15" width="10" height="10"/><rect x="35" y="15" width="10" height="10"/><rect x="35" y="25" width="10" height="10"/><rect x="35" y="45" width="10" height="10"/><rect x="25" y="45" width="10" height="10"/><rect x="25" y="35" width="10" height="10"/><rect x="15" y="35" width="10" height="10"/><rect x="25" y="25" width="10" height="10"/><rect x="35" y="55" width="10" height="10"/><rect x="45" y="45" width="10" height="10"/><rect x="45" y="15" width="10" height="10"/><rect x="25" y="55" width="10" height="10"/><rect x="35" y="65" width="10" height="10"/><rect x="45" y="55" width="10" height="10"/><rect x="55" y="45" width="10" height="10"/><rect x="55" y="25" width="10" height="10"/><rect x="55" y="35" width="10" height="10"/><rect x="45" y="35" width="10" height="10"/><rect x="65" y="35" width="10" height="10"/><rect x="35" y="5" width="10" height="10"/><rect x="15" y="45" width="10" height="10"/><rect x="15" y="25" width="10" height="10"/><rect x="5" y="35" width="10" height="10"/></svg>', hasColorPalette: true },
-    { id: 'background', name: 'BG', icon: '<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect x="40" y="10" width="10" height="10"/><rect x="30" y="10" width="10" height="10"/><rect x="20" y="10" width="10" height="10"/><rect x="10" y="20" width="10" height="10"/><rect x="10" y="30" width="10" height="10"/><rect x="10" y="40" width="10" height="10"/><rect x="10" y="50" width="10" height="10"/><rect x="20" y="60" width="10" height="10"/><rect x="30" y="60" width="10" height="10"/><rect x="40" y="60" width="10" height="10"/><rect x="50" y="10" width="10" height="10"/><rect x="60" y="30" width="10" height="10"/><rect x="60" y="20" width="10" height="10"/><rect x="60" y="40" width="10" height="10"/><rect x="50" y="60" width="10" height="10"/><rect x="60" y="50" width="10" height="10"/><rect x="20" y="20" width="10" height="10"/><rect x="20" y="30" width="10" height="10"/><rect x="30" y="30" width="10" height="10"/><rect x="30" y="20" width="10" height="10"/><rect x="40" y="40" width="10" height="10"/><rect x="50" y="40" width="10" height="10"/><rect x="50" y="50" width="10" height="10"/><rect x="40" y="50" width="10" height="10"/></svg>' },
+    { id: 'background', name: 'BG', icon: '<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect x="40" y="10" width="10" height="10"/><rect x="30" y="10" width="10" height="10"/><rect x="20" y="10" width="10" height="10"/><rect x="10" y="20" width="10" height="10"/><rect x="10" y="30" width="10" height="10"/><rect x="10" y="40" width="10" height="10"/><rect x="10" y="50" width="10" height="10"/><rect x="20" y="60" width="10" height="10"/><rect x="30" y="60" width="10" height="10"/><rect x="40" y="60" width="10" height="10"/><rect x="50" y="10" width="10" height="10"/><rect x="60" y="30" width="10" height="10"/><rect x="60" y="20" width="10" height="10"/><rect x="60" y="40" width="10" height="10"/><rect x="50" y="60" width="10" height="10"/><rect x="60" y="50" width="10" height="10"/><rect x="20" y="20" width="10" height="10"/><rect x="20" y="30" width="10" height="10"/><rect x="30" y="30" width="10" height="10"/><rect x="30" y="20" width="10" height="10"/><rect x="40" y="40" width="10" height="10"/><rect x="50" y="40" width="10" height="10"/><rect x="50" y="50" width="10" height="10"/><rect x="40" y="50" width="10" height="10"/></svg>', hasColorPalette: true },
   ];
 
   // ── Color Palettes ──
@@ -1190,6 +1272,12 @@ html, body {
         openSubsidebar(el.dataset.cat);
       });
     });
+
+    // Scroll active tab into center view (mobile)
+    const activeEl = menu.querySelector('.sidebar-item.active');
+    if (activeEl) {
+      activeEl.scrollIntoView({ inline: 'center', behavior: 'smooth', block: 'nearest' });
+    }
   }
 
   // ── UI: Sub-sidebar ──
@@ -1198,8 +1286,15 @@ html, body {
     const cat = CATEGORIES.find(c => c.id === catId);
     if (!cat) return;
 
+    // Position subsidebar below sidebar on mobile
+    if (window.innerWidth <= 820) {
+      const sidebar = document.querySelector('.sidebar');
+      sub.style.top = sidebar.offsetTop + sidebar.offsetHeight + 'px';
+    }
+
     document.getElementById('subsidebarTitle').textContent = cat.name;
     sub.classList.add('open');
+    renderHeaderPalette(cat);
     renderOptions(cat);
   }
 
@@ -1256,6 +1351,7 @@ html, body {
 
   function renderOptions(cat) {
     const container = document.getElementById('subsidebarOptions');
+    renderHeaderPalette(cat);
     let html = '';
 
     // Option boxes grid
@@ -1337,6 +1433,13 @@ html, body {
 
     container.innerHTML = html;
 
+    // Close subsidebar on mobile after option select
+    function closeMobileSidebar() {
+      if (window.innerWidth <= 820) {
+        document.getElementById('subsidebar').classList.remove('open');
+      }
+    }
+
     // Bind option click events
     container.querySelectorAll('.option-box').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1346,6 +1449,7 @@ html, body {
           state.bgGradient = parseInt(btn.dataset.bgGrad);
           renderOptions(cat);
           updateCardBackground();
+          closeMobileSidebar();
           return;
         }
         const idx = parseInt(btn.dataset.idx);
@@ -1356,6 +1460,7 @@ html, body {
         }
         renderOptions(cat);
         renderAvatar();
+        closeMobileSidebar();
       });
     });
 
@@ -1381,6 +1486,35 @@ html, body {
     } else if (cat.hasColorPalette) {
       bindColorPaletteEvents(container, cat);
     }
+  }
+
+  function renderHeaderPalette(cat) {
+    const hp = document.getElementById('headerPalette');
+    if (!cat.hasColorPalette) { hp.innerHTML = ''; return; }
+    const catId = cat.id;
+    const colors = getColorPalette(catId);
+    const colorKey = getColorKey(catId);
+    const currentColorIdx = state[colorKey];
+    const lastIdx = colors.length - 1;
+    let html = '';
+    colors.forEach((color, i) => {
+      const bg = i === lastIdx
+        ? 'background: conic-gradient(hsl(0,100%,50%), hsl(60,100%,50%), hsl(120,100%,50%), hsl(180,100%,50%), hsl(240,100%,50%), hsl(300,100%,50%), hsl(360,100%,50%))'
+        : `background: ${color}`;
+      html += `<div class="color-swatch${currentColorIdx === i ? ' active' : ''}" style="${bg}" data-color-idx="${i}" data-cat="${catId}"></div>`;
+    });
+    hp.innerHTML = html;
+    // Bind events
+    hp.querySelectorAll('.color-swatch').forEach(swatch => {
+      swatch.addEventListener('click', () => {
+        state[colorKey] = parseInt(swatch.dataset.colorIdx);
+        if (catId === 'background') state.bgType = 'solid';
+        renderHeaderPalette(cat);
+        renderOptions(cat);
+        if (catId === 'background') updateCardBackground();
+        else renderAvatar();
+      });
+    });
   }
 
   function renderColorPaletteHtml(catId) {
@@ -1627,18 +1761,14 @@ html, body {
       state.mouth = Math.floor(Math.random() * PARTS.mouth.length);
     } else if (catId === 'hair') {
       if (PARTS.hair.length > 0) {
-        state.hair = Math.floor(Math.random() * (PARTS.hair.length + 1)) - 1;
+        state.hair = Math.floor(Math.random() * PARTS.hair.length);
       }
       state.hairColor = Math.floor(Math.random() * HAIR_COLORS.length);
       if (state.hairColor === HAIR_COLORS.length - 1) state.hairHue = Math.floor(Math.random() * 360);
     } else if (catId === 'accessory') {
-      // Randomize current group only
+      // Randomize current group only (no None)
       const group = ACC_GROUPS[accGroupIdx];
-      if (Math.random() < 0.5) {
-        state.accessory[accGroupIdx] = group.indices[Math.floor(Math.random() * group.indices.length)];
-      } else {
-        state.accessory[accGroupIdx] = -1;
-      }
+      state.accessory[accGroupIdx] = group.indices[Math.floor(Math.random() * group.indices.length)];
       state['accColor' + accGroupIdx] = Math.floor(Math.random() * ACC_COLORS.length);
       if (state['accColor' + accGroupIdx] === ACC_COLORS.length - 1) state['accHue' + accGroupIdx] = Math.floor(Math.random() * 360);
     } else if (catId === 'background') {
@@ -1657,6 +1787,11 @@ html, body {
     if (cat) renderOptions(cat);
     renderAvatar();
     updateUndoRedo();
+    // Scroll selected option into center of subsidebar
+    requestAnimationFrame(() => {
+      const active = document.querySelector('.option-box.active');
+      if (active) active.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
   }
 
   // ── History (Undo/Redo) ──
