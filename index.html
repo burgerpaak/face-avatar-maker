@@ -1561,7 +1561,13 @@ html, body {
     for (let i = 0; i < Math.min(accCount, gis.length); i++) {
       const gi = gis[i];
       const group = ACC_GROUPS[gi];
-      state.accessory[gi] = group.indices[Math.floor(Math.random() * group.indices.length)];
+      let pick = group.indices[Math.floor(Math.random() * group.indices.length)];
+      // acc[32] (glasses-122) 확률 ~2%: 선택되면 38% 확률로만 유지, 아니면 재선택
+      if (pick === 32 && Math.random() > 0.38) {
+        const others = group.indices.filter(idx => idx !== 32);
+        pick = others[Math.floor(Math.random() * others.length)];
+      }
+      state.accessory[gi] = pick;
     }
 
     // Pick distinct colors for skin, hair, accessory
