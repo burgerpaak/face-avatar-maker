@@ -2147,6 +2147,13 @@ html, body {
 
     // Prevent drag on undo/redo buttons
     document.getElementById('undoRedo').addEventListener('dragstart', e => e.preventDefault());
+
+    // Close subsidebar on outside touch (mobile)
+    document.querySelector('.preview').addEventListener('click', () => {
+      if (window.innerWidth <= 820) {
+        document.getElementById('subsidebar').classList.remove('open');
+      }
+    });
   }
 
   init();
