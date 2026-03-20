@@ -2178,9 +2178,12 @@ html, body {
     // Close subsidebar on outside touch (mobile)
     document.querySelector('.preview').addEventListener('click', (e) => {
       if (window.innerWidth <= 820) {
-        // Don't close if clicking overlay buttons (random/create)
         if (e.target.closest('.overlay-buttons')) return;
         document.getElementById('subsidebar').classList.remove('open');
+        activeCategory = null;
+        overlayVisible = true;
+        document.getElementById('overlayButtons').classList.remove('hidden');
+        renderSidebar();
       }
     });
   }
