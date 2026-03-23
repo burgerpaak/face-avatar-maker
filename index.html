@@ -716,11 +716,16 @@ html, body {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding-bottom: 107px;
+    padding-bottom: 117px;
   }
 
   .avatar-card {
     width: 260px;
+    transition: transform 0.3s ease;
+  }
+
+  .subsidebar.open ~ .preview .avatar-card {
+    transform: translateY(40px);
   }
 
   .undo-redo {
