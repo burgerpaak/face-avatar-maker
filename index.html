@@ -1515,8 +1515,30 @@ html, body {
         if (btn.dataset.bgGrad !== undefined) {
           state.bgType = 'preset';
           state.bgGradient = parseInt(btn.dataset.bgGrad);
+          const prevGrid = container.querySelector('.options-grid');
+          const savedScroll = prevGrid ? prevGrid.scrollLeft : 0;
           renderOptions(cat);
           updateCardBackground();
+          if (window.innerWidth <= 820) {
+            const newGrid = container.querySelector('.options-grid');
+            if (newGrid) {
+              newGrid.scrollLeft = savedScroll;
+              setTimeout(() => {
+                const active = container.querySelector('.option-box.active');
+                if (active) {
+                  const grid = active.closest('.options-grid');
+                  if (grid) {
+                    const gridRect = grid.getBoundingClientRect();
+                    const activeRect = active.getBoundingClientRect();
+                    const isClipped = activeRect.left < gridRect.left || activeRect.right > gridRect.right;
+                    if (isClipped) {
+                      grid.scrollTo({ left: active.offsetLeft - (grid.clientWidth / 2) + (active.offsetWidth / 2), behavior: 'smooth' });
+                    }
+                  }
+                }
+              }, 50);
+            }
+          }
           return;
         }
         const idx = parseInt(btn.dataset.idx);
