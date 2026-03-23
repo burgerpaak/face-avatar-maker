@@ -1831,10 +1831,33 @@ html, body {
     }
 
     // Accessory colors per group
+    const earringGiRandom = ACC_GROUPS.findIndex(g => g.label === 'Earring');
     for (let gi = 0; gi < ACC_GROUPS.length; gi++) {
       if (state.accessory[gi] >= 0) {
-        state['accColor' + gi] = pickDistinctColor(ACC_COLORS, 'accHue' + gi, usedColors);
-        usedColors.push(resolveColor(ACC_COLORS, state['accColor' + gi], state['accHue' + gi]));
+        if (gi === earringGiRandom) {
+          // Earring: always HUE (last index), pick non-conflicting hue
+          let hue = Math.floor(Math.random() * 360);
+          for (let t = 0; t < 50; t++) {
+            const resolved = 'hsl(' + hue + ',100%,50%)';
+            let conflict = false;
+            for (const used of usedColors) {
+              if (resolved.startsWith('hsl(') && used.startsWith('hsl(')) {
+                const h1 = parseInt(resolved.split('(')[1]);
+                const h2 = parseInt(used.split('(')[1]);
+                const diff = Math.min(Math.abs(h1 - h2), 360 - Math.abs(h1 - h2));
+                if (diff < 40) { conflict = true; break; }
+              }
+            }
+            if (!conflict) break;
+            hue = Math.floor(Math.random() * 360);
+          }
+          state['accColor' + gi] = ACC_COLORS.length - 1;
+          state['accHue' + gi] = hue;
+          usedColors.push('hsl(' + hue + ',100%,50%)');
+        } else {
+          state['accColor' + gi] = pickDistinctColor(ACC_COLORS, 'accHue' + gi, usedColors);
+          usedColors.push(resolveColor(ACC_COLORS, state['accColor' + gi], state['accHue' + gi]));
+        }
       }
     }
 
