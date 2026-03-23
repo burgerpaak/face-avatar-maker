@@ -903,6 +903,7 @@ html, body {
 
   let activeCategory = null;
   let overlayVisible = true;
+  let hasEdited = false;
   let history = [];
   let historyIndex = -1;
 
@@ -1043,7 +1044,10 @@ html, body {
   }
 
   // ── Render Thumbnail SVG for option boxes ──
+  const thumbSvgCache = {};
   function renderThumbnailSvg(partKey, idx, color) {
+    const cacheKey = partKey + '_' + idx + '_' + color;
+    if (thumbSvgCache[cacheKey]) return thumbSvgCache[cacheKey];
     let points;
     if (partKey === 'face') {
       points = PARTS.face[idx];
@@ -1092,7 +1096,9 @@ html, body {
       rects += rect(p[0], p[1], fill);
     }
 
-    return `<svg viewBox="${vx} ${vy} ${vw} ${vh}" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">${rects}</svg>`;
+    const result = `<svg viewBox="${vx} ${vy} ${vw} ${vh}" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">${rects}</svg>`;
+    thumbSvgCache[cacheKey] = result;
+    return result;
   }
 
   // ── Render Avatar ──
@@ -1290,8 +1296,10 @@ html, body {
         if (activeCategory === el.dataset.cat && sub.classList.contains('open')) {
           sub.classList.remove('open');
           activeCategory = null;
-          overlayVisible = true;
-          document.getElementById('overlayButtons').classList.remove('hidden');
+          if (!hasEdited) {
+            overlayVisible = true;
+            document.getElementById('overlayButtons').classList.remove('hidden');
+          }
           renderSidebar();
           return;
         }
@@ -1496,6 +1504,8 @@ html, body {
     // Bind option click events
     container.querySelectorAll('.option-box').forEach(btn => {
       btn.addEventListener('click', () => {
+        hasEdited = true;
+        hideOverlay();
         // Gradient option click
         if (btn.dataset.bgGrad !== undefined) {
           state.bgType = 'preset';
@@ -1683,6 +1693,8 @@ html, body {
       bgType: 'solid', bgColor: 0, bgGradient: 0, bgHue: 240, bgTexture: false,
     };
     activeCategory = null;
+    hasEdited = false;
+    hasRandomized = false;
     overlayVisible = true;
     document.getElementById('overlayButtons').classList.remove('hidden');
     document.getElementById('subsidebar').classList.remove('open');
@@ -2244,8 +2256,10 @@ html, body {
         if (e.target.closest('.overlay-buttons')) return;
         document.getElementById('subsidebar').classList.remove('open');
         activeCategory = null;
-        overlayVisible = true;
-        document.getElementById('overlayButtons').classList.remove('hidden');
+        if (!hasEdited) {
+          overlayVisible = true;
+          document.getElementById('overlayButtons').classList.remove('hidden');
+        }
         renderSidebar();
       }
     });
