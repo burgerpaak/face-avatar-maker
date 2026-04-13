@@ -1,0 +1,14 @@
+{
+  "name": "pixie-lab",
+  "version": "1.0.0",
+  "description": "Pixel art avatar maker",
+  "scripts": {
+    "dev": "npx serve . -l 5173",
+    "build": "mkdir -p dist && cp index.html dist/ && cp -r assets dist/ 2>/dev/null || true && cp og-image.png dist/ 2>/dev/null || true && cp terms.html dist/ 2>/dev/null || true",
+    "start": "npx serve ."
+  },
+  "dependencies": {
+    "@apps-in-toss/web-framework": "^2.1.0"
+  },
+  "devDependencies": {}
+}
